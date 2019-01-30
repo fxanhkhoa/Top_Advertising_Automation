@@ -14,6 +14,7 @@ DELAY_FOR_EACH_PAGE = 2.5
 MAXIMUM_BTC = 1
 NUMBER_OF_PAGE_WANT_TO_CHECK = 3
 DELAY_FOR_EACH_TIME_POST = 90
+LINK_FOR_TOKEN_LOG_IN = 'https://remitano.com/btc/vn/login/lichkinghs@gmail.com/rpaY268WhvhQGYVpVUw95PY4EKAZHdJiMhwAa7e4NM'
 
 proxy = Proxy(
      {
@@ -26,9 +27,10 @@ service = service.Service('C:/Users/Anh Khoa/Documents/python_3.5_project/test M
 service.start()
 capabilities = {'chrome.binary': '/path/to/custom/chrome'}
 driver = webdriver.Remote(service.service_url, capabilities)
-driver.get('https://remitano.com/btc/vn/login/lichkinghs@gmail.com/rpaY268WhvhQGYVpVUw95PY4EKAZHdJiMhwAa7e4NM')
 
-input("Wait for Website done loading and Press Enter to continue...")
+driver.get(LINK_FOR_TOKEN_LOG_IN)
+
+input("Wait for Website done loading and Create one Advertisement and Press Enter to continue...")
 
 while True:
   try:
@@ -71,6 +73,29 @@ while True:
     #### Let's sort and find the lowest price with BTC > MAXIMUM_BTC ####
     print('Minimum price: ',min(price))
     time.sleep(1)
+    
+    ######### Part Delete Post #########
+    
+    ## Go to Control board
+    driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
+    time.sleep(1)
+    
+    ## Go to my advertising board
+    value = "Các quảng cáo của tôi"
+    requiredXpath = "//span[text()=\'"+value+"\']"
+    driver.find_element_by_xpath(requiredXpath).click()
+    
+    ## Delete advertisement
+    value = "Xóa"
+    requiredXpath = "//span[text()=\'"+value+"\']"
+    driver.find_element_by_xpath(requiredXpath).click()
+    
+    ## Accept button
+    value = "Đồng ý"
+    requiredXpath = "//button[text()=\'"+value+"\']"
+    driver.find_element_by_xpath(requiredXpath).click()
+    
+    time.sleep(5)
     
     ######### Part Calculate Price #########
     
@@ -128,10 +153,20 @@ while True:
       #driver.find_elements_by_class_name("btn-save-offer").click()
     
     ## done 1 time
-    time.sleep(DELAY_FOR_EACH_TIME_POST) 
+    time.sleep(DELAY_FOR_EACH_TIME_POST)
+ 
   except Exception as e:
     print(e)
 #for element in elems:
 #    print(element.get_attribute('innerHTML'))
 #driver.quit()
 
+
+
+
+# href="/btc/vn/dashboard/escrow/trades/active" bang dieu khien
+
+#Các quảng cáo của tôi
+#Xóa
+#Đồng ý
+#btn btn-default
