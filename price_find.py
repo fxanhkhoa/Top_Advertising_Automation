@@ -30,17 +30,28 @@ input("Press Enter to continue...")
 
 while True:
   try:
-    driver.get('https://remitano.com/btc/vn/offers/create');
-    time.sleep(5) # Let the user actually see something!
-    actions = ActionChains(driver)
-    elems_change = driver.find_elements_by_class_name("btn-change")
-    for i in range(0,1):
-      print(elems_change[i].get_attribute('innerHTML'))
+    driver.get('C:/Users/Anh Khoa/Desktop/test.html');
+    time.sleep(2) # Let the user actually see something!
+    #print(driver.page_source)
+    value = "Toggle Form!"
+    requiredXpath = "//button[text()=\'"+value+"\']"
+    driver.find_element_by_xpath(requiredXpath).click()
+    
+    value = "Submit"
+    requiredXpath = "//button[text()=\'"+value+"\']"
+    driver.find_element_by_xpath(requiredXpath).click()
+    
+    time.sleep(15)
+    
+    # actions = ActionChains(driver)
+    # elems_change = driver.find_elements_by_class_name("btn-change")
+    # for i in range(0,1):
+      # print(elems_change[i].get_attribute('innerHTML'))
       
-    ## ==> click
-    actions.click(elems_change[0])
-    actions.perform()
-    time.sleep(3)
+    # ## ==> click
+    # actions.click(elems_change[0])
+    # actions.perform()
+    #time.sleep(3)
     # driver.get('https://remitano.com/btc/vn');
     # time.sleep(5) # Let the user actually see something!
     # #print(driver.page_source)

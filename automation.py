@@ -10,11 +10,20 @@ import selenium.webdriver.chrome.service as service
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 
-DELAY_FOR_EACH_PAGE = 2.5
-MAXIMUM_BTC = 1
-NUMBER_OF_PAGE_WANT_TO_CHECK = 3
-DELAY_FOR_EACH_TIME_POST = 90
-LINK_FOR_TOKEN_LOG_IN = 'https://remitano.com/btc/vn/login/lichkinghs@gmail.com/rpaY268WhvhQGYVpVUw95PY4EKAZHdJiMhwAa7e4NM'
+import os
+import sys
+
+####### Read Config #########
+fp = open(os.getcwd()+'\\Config.txt')
+lines = fp.readlines()
+
+DELAY_FOR_EACH_PAGE = float(lines[0][lines[0].index('=') + 1 : lines[0].index('=') + len(lines[0]) - lines[0].index('=')])
+MAXIMUM_BTC = int(lines[1][lines[1].index('=') + 1 : lines[1].index('=') + len(lines[1]) - lines[1].index('=')])
+NUMBER_OF_PAGE_WANT_TO_CHECK = int(lines[2][lines[2].index('=') + 1 : lines[2].index('=') + len(lines[2]) - lines[2].index('=')])
+DELAY_FOR_EACH_TIME_POST = int(lines[3][lines[3].index('=') + 1 : lines[3].index('=') + len(lines[3]) - lines[3].index('=')])
+LINK_FOR_TOKEN_LOG_IN = lines[4][lines[4].index('=') + 1 : lines[4].index('=') + len(lines[4]) - lines[4].index('=')]
+
+print(DELAY_FOR_EACH_PAGE, MAXIMUM_BTC, NUMBER_OF_PAGE_WANT_TO_CHECK, DELAY_FOR_EACH_TIME_POST, LINK_FOR_TOKEN_LOG_IN)
 
 proxy = Proxy(
      {
@@ -76,26 +85,26 @@ while True:
     
     ######### Part Delete Post #########
     
-    ## Go to Control board
-    driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
-    time.sleep(1)
+    # ## Go to Control board
+    # driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
+    # time.sleep(1)
     
-    ## Go to my advertising board
-    value = "Các quảng cáo của tôi"
-    requiredXpath = "//span[text()=\'"+value+"\']"
-    driver.find_element_by_xpath(requiredXpath).click()
+    # ## Go to my advertising board
+    # value = "Các quảng cáo của tôi"
+    # requiredXpath = "//span[text()=\'"+value+"\']"
+    # driver.find_element_by_xpath(requiredXpath).click()
     
-    ## Delete advertisement
-    value = "Xóa"
-    requiredXpath = "//span[text()=\'"+value+"\']"
-    driver.find_element_by_xpath(requiredXpath).click()
+    # ## Delete advertisement
+    # value = "Xóa"
+    # requiredXpath = "//span[text()=\'"+value+"\']"
+    # driver.find_element_by_xpath(requiredXpath).click()
     
-    ## Accept button
-    value = "Đồng ý"
-    requiredXpath = "//button[text()=\'"+value+"\']"
-    driver.find_element_by_xpath(requiredXpath).click()
+    # ## Accept button
+    # value = "Đồng ý"
+    # requiredXpath = "//button[text()=\'"+value+"\']"
+    # driver.find_element_by_xpath(requiredXpath).click()
     
-    time.sleep(5)
+    # time.sleep(5)
     
     ######### Part Calculate Price #########
     
@@ -111,7 +120,7 @@ while True:
     
     ## Calculate
     bitUSD = min(price) / BTC_stamp
-    bitUSD_deserve = bitUSD + 12
+    bitUSD_deserve = bitUSD - 12
     
     can_post = 0
     print('price after: ', bitUSD_deserve * BTC_stamp)
