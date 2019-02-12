@@ -22,8 +22,12 @@ MAXIMUM_BTC = int(lines[1][lines[1].index('=') + 1 : lines[1].index('=') + len(l
 NUMBER_OF_PAGE_WANT_TO_CHECK = int(lines[2][lines[2].index('=') + 1 : lines[2].index('=') + len(lines[2]) - lines[2].index('=')])
 DELAY_FOR_EACH_TIME_POST = int(lines[3][lines[3].index('=') + 1 : lines[3].index('=') + len(lines[3]) - lines[3].index('=')])
 LINK_FOR_TOKEN_LOG_IN = lines[4][lines[4].index('=') + 1 : lines[4].index('=') + len(lines[4]) - lines[4].index('=')]
+ACCOUNT_NUMBER = lines[5][lines[5].index('=') + 1 : lines[5].index('=') + len(lines[5]) - lines[5].index('=')]
+ACCOUNT_NAME = lines[6][lines[6].index('=') + 1 : lines[6].index('=') + len(lines[6]) - lines[6].index('=')]
+minus_price = int(lines[7][lines[7].index('=') + 1 : lines[7].index('=') + len(lines[7]) - lines[7].index('=')])
+BANK_NAME = lines[8][lines[8].index('=') + 1 : lines[8].index('=') + len(lines[8]) - lines[8].index('=')]
 
-print(DELAY_FOR_EACH_PAGE, MAXIMUM_BTC, NUMBER_OF_PAGE_WANT_TO_CHECK, DELAY_FOR_EACH_TIME_POST, LINK_FOR_TOKEN_LOG_IN)
+print(DELAY_FOR_EACH_PAGE, MAXIMUM_BTC, NUMBER_OF_PAGE_WANT_TO_CHECK, DELAY_FOR_EACH_TIME_POST, LINK_FOR_TOKEN_LOG_IN, ACCOUNT_NUMBER, ACCOUNT_NAME, BANK_NAME, minus_price)
 
 proxy = Proxy(
      {
@@ -32,7 +36,7 @@ proxy = Proxy(
      }
 )
 
-service = service.Service('C:/Users/Anh Khoa/Documents/python_3.5_project/test Mouse and Keyboard and inspect web/chromedriver_win32/chromedriver.exe')
+service = service.Service(os.getcwd()+ '/chromedriver_win32/chromedriver.exe')
 service.start()
 capabilities = {'chrome.binary': '/path/to/custom/chrome'}
 driver = webdriver.Remote(service.service_url, capabilities)
@@ -40,6 +44,9 @@ driver = webdriver.Remote(service.service_url, capabilities)
 driver.get(LINK_FOR_TOKEN_LOG_IN)
 
 input("Wait for Website done loading and Create one Advertisement and Press Enter to continue...")
+
+step1 = 0
+step2 = 0
 
 while True:
   try:
@@ -85,26 +92,34 @@ while True:
     
     ######### Part Delete Post #########
     
-    # ## Go to Control board
-    # driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
-    # time.sleep(1)
-    
-    # ## Go to my advertising board
-    # value = "Các quảng cáo của tôi"
-    # requiredXpath = "//span[text()=\'"+value+"\']"
-    # driver.find_element_by_xpath(requiredXpath).click()
-    
-    # ## Delete advertisement
-    # value = "Xóa"
-    # requiredXpath = "//span[text()=\'"+value+"\']"
-    # driver.find_element_by_xpath(requiredXpath).click()
-    
-    # ## Accept button
-    # value = "Đồng ý"
-    # requiredXpath = "//button[text()=\'"+value+"\']"
-    # driver.find_element_by_xpath(requiredXpath).click()
-    
-    # time.sleep(5)
+    try:
+      ## Go to Control board
+      driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
+      time.sleep(1)
+      
+      ## Go to my advertising board
+      value = "Các quảng cáo của tôi"
+      requiredXpath = "//span[text()=\'"+value+"\']"
+      driver.find_element_by_xpath(requiredXpath).click()
+      
+      time.sleep(2)
+      
+      ## Delete advertisement
+      value = "Xóa"
+      requiredXpath = "//span[text()=\'"+value+"\']"
+      driver.find_element_by_xpath(requiredXpath).click()
+      
+      time.sleep(2)
+      
+      ## Accept button
+      value = "Đồng ý"
+      requiredXpath = "//button[text()=\'"+value+"\']"
+      driver.find_element_by_xpath(requiredXpath).click()
+      
+      time.sleep(5)
+    except Exception as e:
+      print('no ad to delete')
+      print(e)
     
     ######### Part Calculate Price #########
     
@@ -120,12 +135,12 @@ while True:
     
     ## Calculate
     bitUSD = min(price) / BTC_stamp
-    bitUSD_deserve = bitUSD - 12
+    bitUSD_deserve = bitUSD - minus_price
     
     can_post = 0
     print('price after: ', bitUSD_deserve * BTC_stamp)
     
-    if ((bitUSD_deserve * BTC_stamp) - min(price) >= 30000):
+    if ((bitUSD_deserve * BTC_stamp) - min(price) <= 30000):
       can_post = 1
       print('can post = ', can_post)
     
@@ -149,23 +164,38 @@ while True:
     elem_price = driver.find_element_by_name('price').send_keys(str(bitUSD_deserve))
     
     ## find bank name field and click
-    driver.find_element_by_xpath("//select[@name='payment_details.bank_name']/option[text()='Vietcombank']").click()
+    driver.find_element_by_xpath("//select[@name='payment_details.bank_name']/option[text()='"+ BANK_NAME +"']").click()
     
     ## find account number and click
-    driver.find_element_by_name('payment_details.bank_account_number').send_keys("0071000720877")
+    driver.find_element_by_name('payment_details.bank_account_number').send_keys(ACCOUNT_NUMBER)
     
     ## find account name
-    driver.find_element_by_name('payment_details.bank_account_name').send_keys("Nguyen Hoai Son")
+    driver.find_element_by_name('payment_details.bank_account_name').send_keys(ACCOUNT_NAME)
     
     ## click create btn
-    #if can_post == 1:
-      #driver.find_elements_by_class_name("btn-save-offer").click()
+    if can_post == 1:
+      time.sleep(1)
+      value = "Tạo"
+      #requiredXpath = "//button[text()=\'"+value+"\']"
+      requiredXpath = "//button[contains(@class, 'btn-save-offer btn btn-primary')]"
+      #driver.find_element_by_xpath(requiredXpath)
+      #driver.find_element_by_xpath(requiredXpath).click()
+      driver.find_element_by_xpath(requiredXpath).click()
+      #driver.findElement(By.xpath()).click
+      
+      print('clicked')
+      time.sleep(3)
+      
+      value = "Đồng ý"
+      requiredXpath = "//button[text()=\'"+value+"\']"
+      driver.find_element_by_xpath(requiredXpath).click()
     
     ## done 1 time
     time.sleep(DELAY_FOR_EACH_TIME_POST)
  
   except Exception as e:
     print(e)
+    #time.sleep(DELAY_FOR_EACH_TIME_POST)
 #for element in elems:
 #    print(element.get_attribute('innerHTML'))
 #driver.quit()
