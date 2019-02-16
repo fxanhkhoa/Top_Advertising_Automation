@@ -25,7 +25,8 @@ LINK_FOR_TOKEN_LOG_IN = lines[4][lines[4].index('=') + 1 : lines[4].index('=') +
 ACCOUNT_NUMBER = lines[5][lines[5].index('=') + 1 : lines[5].index('=') + len(lines[5]) - lines[5].index('=')]
 ACCOUNT_NAME = lines[6][lines[6].index('=') + 1 : lines[6].index('=') + len(lines[6]) - lines[6].index('=')]
 minus_price = int(lines[7][lines[7].index('=') + 1 : lines[7].index('=') + len(lines[7]) - lines[7].index('=')])
-BANK_NAME = lines[8][lines[8].index('=') + 1 : lines[8].index('=') + len(lines[8]) - lines[8].index('=')]
+BIT_TO_SELL = float(lines[8][lines[8].index('=') + 1 : lines[8].index('=') + len(lines[8]) - lines[8].index('=')])
+BANK_NAME = lines[9][lines[9].index('=') + 1 : lines[9].index('=') + len(lines[9]) - lines[9].index('=')]
 
 print(DELAY_FOR_EACH_PAGE, MAXIMUM_BTC, NUMBER_OF_PAGE_WANT_TO_CHECK, DELAY_FOR_EACH_TIME_POST, LINK_FOR_TOKEN_LOG_IN, ACCOUNT_NUMBER, ACCOUNT_NAME, BANK_NAME, minus_price)
 
@@ -158,6 +159,25 @@ while True:
     actions.click(elems_change[0])
     actions.perform()
     time.sleep(2)
+	
+	## find detail label
+    try:
+      requiredXpath = "//label[contains(text(),'Chi tiết')]"
+      driver.find_element_by_xpath(requiredXpath).click()
+      time.sleep(3)
+    except Exception as e:
+      print(e)
+	  
+	## find btc max
+    elems_change = driver.find_elements_by_class_name("btn-change")
+	
+    #actions.click(elems_change[2])
+    #actions.perform()
+    elems_change[4].click()
+	
+    time.sleep(2)
+    driver.find_element_by_name('max_amount').clear()
+    elem_price = driver.find_element_by_name('max_amount').send_keys(str(BIT_TO_SELL))
     
     ## find price field
     driver.find_element_by_name('price').clear()
@@ -172,6 +192,7 @@ while True:
     ## find account name
     driver.find_element_by_name('payment_details.bank_account_name').send_keys(ACCOUNT_NAME)
     
+	
     ## click create btn
     if can_post == 1:
       time.sleep(1)
@@ -179,7 +200,6 @@ while True:
       #requiredXpath = "//button[text()=\'"+value+"\']"
       requiredXpath = "//button[contains(@class, 'btn-save-offer btn btn-primary')]"
       #driver.find_element_by_xpath(requiredXpath)
-      #driver.find_element_by_xpath(requiredXpath).click()
       driver.find_element_by_xpath(requiredXpath).click()
       #driver.findElement(By.xpath()).click
       

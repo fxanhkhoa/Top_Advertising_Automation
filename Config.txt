@@ -6,4 +6,5 @@ LINK_FOR_TOKEN_LOG_IN=https://remitano.com/btc/vn/login/lichkinghs@gmail.com/eQA
 ACCOUNT_NUMBER=0071000720877
 ACCOUNT_NAME=Nguyen Hoai Son
 minus_price=12
+BIT_MAX=0.01
 BANK_NAME=Vietcombank
