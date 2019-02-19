@@ -53,6 +53,22 @@ while True:
   try:
     driver.get('https://remitano.com/btc/vn');
     time.sleep(5) # Let the user actually see something!
+    
+    ##### try click vietnam #####
+    try:
+      requiredXpath = "//i[contains(@class, 'fa icon-down-open-1')]"
+      #driver.find_element_by_xpath(requiredXpath)
+      driver.find_element_by_xpath(requiredXpath).click()
+      time.sleep(1)
+      
+      value = "Việt Nam"
+      requiredXpath = "//span[text()=\'"+value+"\']"
+      driver.find_element_by_xpath(requiredXpath).click()
+      time.sleep(3)
+      
+    except Exception as e:
+      print(e)
+    
     #print(driver.page_source)
     
     ########### Get 10 page on advertising prices #########
@@ -98,6 +114,20 @@ while True:
       driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
       time.sleep(1)
       
+      try:
+        requiredXpath = "//i[contains(@class, 'fa icon-down-open-1')]"
+        #driver.find_element_by_xpath(requiredXpath)
+        driver.find_element_by_xpath(requiredXpath).click()
+        time.sleep(1)
+        
+        value = "Việt Nam"
+        requiredXpath = "//span[text()=\'"+value+"\']"
+        driver.find_element_by_xpath(requiredXpath).click()
+        time.sleep(3)
+      
+      except Exception as e:
+        print(e)
+      
       ## Go to my advertising board
       value = "Các quảng cáo của tôi"
       requiredXpath = "//span[text()=\'"+value+"\']"
@@ -127,6 +157,20 @@ while True:
     ## go to offer page
     driver.get('https://remitano.com/btc/vn/offers/create');
     time.sleep(1)
+    
+    try:
+      requiredXpath = "//i[contains(@class, 'fa icon-down-open-1')]"
+      #driver.find_element_by_xpath(requiredXpath)
+      driver.find_element_by_xpath(requiredXpath).click()
+      time.sleep(1)
+      
+      value = "Việt Nam"
+      requiredXpath = "//span[text()=\'"+value+"\']"
+      driver.find_element_by_xpath(requiredXpath).click()
+      time.sleep(3)
+      
+    except Exception as e:
+      print(e)
     #actions = ActionChains(driver)
     
     ## Get Bitstamp BTC
@@ -160,24 +204,24 @@ while True:
     actions.perform()
     time.sleep(2)
 	
-	## find detail label
-    try:
-      requiredXpath = "//label[contains(text(),'Chi tiết')]"
-      driver.find_element_by_xpath(requiredXpath).click()
-      time.sleep(3)
-    except Exception as e:
-      print(e)
+	# ## find detail label
+    # try:
+      # requiredXpath = "//label[contains(text(),'Chi tiết')]"
+      # driver.find_element_by_xpath(requiredXpath).click()
+      # time.sleep(3)
+    # except Exception as e:
+      # print(e)
 	  
-	## find btc max
-    elems_change = driver.find_elements_by_class_name("btn-change")
+	# ## find btc max
+    # elems_change = driver.find_elements_by_class_name("btn-change")
 	
-    #actions.click(elems_change[2])
-    #actions.perform()
-    elems_change[4].click()
+    # #actions.click(elems_change[2])
+    # #actions.perform()
+    # elems_change[4].click()
 	
-    time.sleep(2)
-    driver.find_element_by_name('max_amount').clear()
-    elem_price = driver.find_element_by_name('max_amount').send_keys(str(BIT_TO_SELL))
+    # time.sleep(2)
+    # driver.find_element_by_name('max_amount').clear()
+    # elem_price = driver.find_element_by_name('max_amount').send_keys(str(BIT_TO_SELL))
     
     ## find price field
     driver.find_element_by_name('price').clear()
