@@ -204,24 +204,25 @@ while True:
     actions.perform()
     time.sleep(2)
 	
-	# ## find detail label
-    # try:
-      # requiredXpath = "//label[contains(text(),'Chi tiết')]"
-      # driver.find_element_by_xpath(requiredXpath).click()
-      # time.sleep(3)
-    # except Exception as e:
-      # print(e)
-	  
-	# ## find btc max
-    # elems_change = driver.find_elements_by_class_name("btn-change")
-	
-    # #actions.click(elems_change[2])
-    # #actions.perform()
-    # elems_change[4].click()
-	
-    # time.sleep(2)
-    # driver.find_element_by_name('max_amount').clear()
-    # elem_price = driver.find_element_by_name('max_amount').send_keys(str(BIT_TO_SELL))
+    if (BIT_TO_SELL > 0):
+    ## find detail label
+      try:
+        requiredXpath = "//label[contains(text(),'Chi tiết')]"
+        driver.find_element_by_xpath(requiredXpath).click()
+        time.sleep(3)
+      except Exception as e:
+        print(e)
+      
+    ## find btc max
+      elems_change = driver.find_elements_by_class_name("btn-change")
+    
+      #actions.click(elems_change[2])
+      #actions.perform()
+      elems_change[4].click()
+    
+      time.sleep(2)
+      driver.find_element_by_name('max_amount').clear()
+      elem_price = driver.find_element_by_name('max_amount').send_keys(str(BIT_TO_SELL))
     
     ## find price field
     driver.find_element_by_name('price').clear()
@@ -253,6 +254,8 @@ while True:
       value = "Đồng ý"
       requiredXpath = "//button[text()=\'"+value+"\']"
       driver.find_element_by_xpath(requiredXpath).click()
+      print("accept clicked")
+      time.sleep(2)
     
     ## done 1 time
     time.sleep(DELAY_FOR_EACH_TIME_POST)
