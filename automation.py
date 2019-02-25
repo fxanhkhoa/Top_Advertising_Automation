@@ -77,7 +77,7 @@ while True:
     
     ######### Part Get minimum price #########
     
-    for time_count in range(1, NUMBER_OF_PAGE_WANT_TO_CHECK):
+    for time_count in range(2, NUMBER_OF_PAGE_WANT_TO_CHECK):
       elems = driver.find_elements_by_class_name("amount")
       elems_tradelimit = driver.find_elements_by_class_name("remi-offer-item-price-trade-limits")
       elems.reverse()
@@ -180,7 +180,7 @@ while True:
     
     ## Calculate
     bitUSD = min(price) / BTC_stamp
-    bitUSD_deserve = bitUSD - minus_price
+    bitUSD_deserve = bitUSD*0.99
     
     can_post = 0
     print('price after: ', bitUSD_deserve * BTC_stamp)
@@ -249,13 +249,25 @@ while True:
       #driver.findElement(By.xpath()).click
       
       print('clicked')
-      time.sleep(3)
+      time.sleep(7)
       
-      value = "Đồng ý"
-      requiredXpath = "//button[text()=\'"+value+"\']"
-      driver.find_element_by_xpath(requiredXpath).click()
-      print("accept clicked")
-      time.sleep(2)
+      try:
+        value = "Đồng ý"
+        requiredXpath = "//button[text()=\'"+value+"\']"
+        driver.find_element_by_xpath(requiredXpath).click()
+        print("accept clicked")
+        time.sleep(2)
+      except Exception as e:
+        print(e)
+
+      try:
+        value = "Đồng ý"
+        requiredXpath = "//button[text()=\'"+value+"\']"
+        driver.find_element_by_xpath(requiredXpath).click()
+        print("accept clicked")
+        time.sleep(2)
+      except Exception as e:
+        print(e)
     
     ## done 1 time
     time.sleep(DELAY_FOR_EACH_TIME_POST)
