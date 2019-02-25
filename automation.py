@@ -236,6 +236,7 @@ while True:
     
     ## find account name
     driver.find_element_by_name('payment_details.bank_account_name').send_keys(ACCOUNT_NAME)
+    time.sleep(3)
     
 	
     ## click create btn
@@ -244,12 +245,21 @@ while True:
       value = "Tạo"
       #requiredXpath = "//button[text()=\'"+value+"\']"
       requiredXpath = "//button[contains(@class, 'btn-save-offer btn btn-primary')]"
-      #driver.find_element_by_xpath(requiredXpath)
-      driver.find_element_by_xpath(requiredXpath).click()
-      #driver.findElement(By.xpath()).click
+      click_ok = 0
+      try:
+        driver.find_element_by_xpath(requiredXpath).click()
+        click_ok = 1
+      except Exception as e:
+        print(e)
+		
+      try:
+        if click_ok == 0:
+          driver.find_element_by_xpath(requiredXpath)
+      except Exception as e:
+        print(e)
       
       print('clicked')
-      time.sleep(7)
+      time.sleep(10)
       
       try:
         value = "Đồng ý"
