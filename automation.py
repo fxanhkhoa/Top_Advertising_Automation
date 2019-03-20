@@ -51,7 +51,7 @@ step2 = 0
 
 while True:
   try:
-    driver.get('https://remitano.com/btc/vn');
+    driver.get('https://remitano.com/btc/vn')
     time.sleep(5) # Let the user actually see something!
     
     ##### try click vietnam #####
@@ -103,6 +103,7 @@ while True:
       
       time.sleep(DELAY_FOR_EACH_PAGE)
     
+    print("out here")
     #### Let's sort and find the lowest price with BTC > MAXIMUM_BTC ####
     print('Minimum price: ',min(price))
     time.sleep(1)
@@ -155,7 +156,7 @@ while True:
     ######### Part Calculate Price #########
     
     ## go to offer page
-    driver.get('https://remitano.com/btc/vn/offers/create');
+    driver.get('https://remitano.com/btc/vn/offers/create')
     time.sleep(1)
     
     try:
@@ -269,32 +270,144 @@ while True:
         time.sleep(2)
       except Exception as e:
         print(e)
-
-      try:
-        value = "Đồng ý"
-        requiredXpath = "//button[text()=\'"+value+"\']"
-        driver.find_element_by_xpath(requiredXpath).click()
-        print("accept clicked")
-        time.sleep(2)
-      except Exception as e:
-        print(e)
     
     ## done 1 time
-    time.sleep(DELAY_FOR_EACH_TIME_POST)
+    ## time.sleep(DELAY_FOR_EACH_TIME_POST)
  
   except Exception as e:
     print(e)
-    #time.sleep(DELAY_FOR_EACH_TIME_POST)
-#for element in elems:
-#    print(element.get_attribute('innerHTML'))
-#driver.quit()
 
+  try:
+        driver.get('https://remitano.com/btc/vn')
 
+        ###### Get Language Viet Nam ######
+        try:
+            requiredXpath = "//i[contains(@class, 'fa icon-down-open-1')]"
+            #driver.find_element_by_xpath(requiredXpath)
+            driver.find_element_by_xpath(requiredXpath).click()
+            time.sleep(1)
+            
+            value = "Việt Nam"
+            requiredXpath = "//span[text()=\'"+value+"\']"
+            driver.find_element_by_xpath(requiredXpath).click()
+            time.sleep(3)
+            
+        except Exception as e:
+            print(e)
 
+        ######### Click Ban Ngay ########
+        try:
+            requiredXpath = "//div[contains(@class, 'quick-tab buy-offer-list')]"
+            #driver.find_element_by_xpath(requiredXpath)
+            driver.find_element_by_xpath(requiredXpath).click()
+            time.sleep(1)
+            
+        except Exception as e:
+            print(e)
 
-# href="/btc/vn/dashboard/escrow/trades/active" bang dieu khien
+        ######### Get price #########
+        price = []
 
-#Các quảng cáo của tôi
-#Xóa
-#Đồng ý
-#btn btn-default
+        for time_count in range(1, 2):
+            elems = driver.find_elements_by_class_name("amount")
+            elems.reverse()
+
+            for i in range(0, 5):
+                value = float(elems[i].get_attribute('innerHTML').replace(",", ""))
+                print(float(value))
+                price.append(value)
+
+            value = "Trang sau"
+            requiredXpath = "//a[text()=\'"+value+"\']"
+            driver.find_element_by_xpath(requiredXpath).click()
+
+            time.sleep(DELAY_FOR_EACH_PAGE)
+        
+        print("Minimum price: ", min(price))
+
+        ######### Delete Buy Post #########
+
+        ######### Post Buy Post #########
+        driver.get('https://remitano.com/btc/vn/offers/create')
+        time.sleep(1)
+
+        ###### Get Language Viet Nam ######
+        try:
+            requiredXpath = "//i[contains(@class, 'fa icon-down-open-1')]"
+            #driver.find_element_by_xpath(requiredXpath)
+            driver.find_element_by_xpath(requiredXpath).click()
+            time.sleep(1)
+            
+            value = "Việt Nam"
+            requiredXpath = "//span[text()=\'"+value+"\']"
+            driver.find_element_by_xpath(requiredXpath).click()
+            time.sleep(3)
+            
+        except Exception as e:
+            print(e)
+
+        ######### Click Mua BTC ########
+        try:
+            requiredXpath = "//label[contains(@class, 'offer-type-buy btn btn-default')]"
+            #driver.find_element_by_xpath(requiredXpath)
+            driver.find_element_by_xpath(requiredXpath).click()
+            time.sleep(1)
+            
+        except Exception as e:
+            print(e)
+
+        ######### Calculate #########
+
+        BTC_stamp_str = driver.find_elements_by_class_name("text-primary")
+        BTC_stamp = float(BTC_stamp_str[0].get_attribute('innerHTML'))
+        print(BTC_stamp)
+        
+        ## Calculate
+        bitUSD = min(price) / BTC_stamp
+        bitUSD_deserve = bitUSD*0.99
+
+        print('price after: ', bitUSD_deserve * BTC_stamp)
+
+        elems_change = driver.find_elements_by_class_name("btn-change")
+        elems_change[0].click()
+
+        ## find price field
+        driver.find_element_by_name('price').clear()
+        elem_price = driver.find_element_by_name('price').send_keys(str(bitUSD_deserve))
+
+        ## find bank name field and click
+        driver.find_element_by_xpath("//select[@name='payment_details.bank_name']/option[text()='"+ BANK_NAME +"']").click()
+
+        time.sleep(1)
+        value = "Tạo"
+        #requiredXpath = "//button[text()=\'"+value+"\']"
+        requiredXpath = "//button[contains(@class, 'btn-save-offer btn btn-primary')]"
+        click_ok = 0
+        
+        try:
+            driver.find_element_by_xpath(requiredXpath).click()
+            click_ok = 1
+        except Exception as e:
+            print(e)
+            
+        try:
+            if click_ok == 0:
+                driver.find_element_by_xpath(requiredXpath)
+        except Exception as e:
+            print(e)
+        
+        print('clicked')
+        time.sleep(4)
+
+        try:
+            value = "Đồng ý"
+            requiredXpath = "//button[text()=\'"+value+"\']"
+            driver.find_element_by_xpath(requiredXpath).click()
+            print("accept clicked")
+            time.sleep(2)
+        except Exception as e:
+            print(e)
+
+        time.sleep(DELAY_FOR_EACH_TIME_POST)
+  except Exception as e:
+      print(e)
