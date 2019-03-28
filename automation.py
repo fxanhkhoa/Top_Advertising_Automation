@@ -113,7 +113,7 @@ while True:
     
     try:
       ## Go to Control board
-      driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
+      driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active')
       time.sleep(1)
       
       try:
@@ -126,6 +126,7 @@ while True:
         requiredXpath = "//span[text()=\'"+value+"\']"
         driver.find_element_by_xpath(requiredXpath).click()
         time.sleep(3)
+        driver.execute_script("window.scrollTo(0, 0)")
       
       except Exception as e:
         print(e)
@@ -294,6 +295,7 @@ while True:
             requiredXpath = "//span[text()=\'"+value+"\']"
             driver.find_element_by_xpath(requiredXpath).click()
             time.sleep(3)
+            driver.execute_script("window.scrollTo(0, 0)")
             
         except Exception as e:
             print(e)
@@ -304,6 +306,7 @@ while True:
             #driver.find_element_by_xpath(requiredXpath)
             driver.find_element_by_xpath(requiredXpath).click()
             time.sleep(1)
+            
             
         except Exception as e:
             print(e)
