@@ -91,13 +91,14 @@ while True:
         #print(int(elems[i].get_attribute('innerHTML')) * 2)
         print(max_value)
         
-        if (max_value >= MAXIMUM_BTC):
+        if ((max_value >= MAXIMUM_BTC) or (MAXIMUM_BTC < 0)):
           price.append(value)
           limit_BTC.append(max_value)
       
+      print(price)
       value = "Trang sau"
       requiredXpath = "//a[text()=\'"+value+"\']"
-      driver.find_element_by_xpath(requiredXpath).click()
+      driver.find_element_by_xpath(requiredXpath)
         
       #print(elem.get_attribute('innerHTML'))
       
@@ -169,6 +170,8 @@ while True:
       requiredXpath = "//span[text()=\'"+value+"\']"
       driver.find_element_by_xpath(requiredXpath).click()
       time.sleep(3)
+
+      driver.execute_script("window.scrollTo(0, 0)")
       
     except Exception as e:
       print(e)
@@ -342,6 +345,8 @@ while True:
             requiredXpath = "//span[text()=\'"+value+"\']"
             driver.find_element_by_xpath(requiredXpath).click()
             time.sleep(3)
+
+            driver.execute_script("window.scrollTo(0, 0)")
             
         except Exception as e:
             print(e)
