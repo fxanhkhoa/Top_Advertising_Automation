@@ -91,13 +91,14 @@ while True:
         #print(int(elems[i].get_attribute('innerHTML')) * 2)
         print(max_value)
         
-        if (max_value >= MAXIMUM_BTC):
+        if ((max_value >= MAXIMUM_BTC) or (MAXIMUM_BTC < 0)):
           price.append(value)
           limit_BTC.append(max_value)
       
+      print(price)
       value = "Trang sau"
       requiredXpath = "//a[text()=\'"+value+"\']"
-      driver.find_element_by_xpath(requiredXpath).click()
+      driver.find_element_by_xpath(requiredXpath)
         
       #print(elem.get_attribute('innerHTML'))
       
@@ -112,7 +113,7 @@ while True:
     
     try:
       ## Go to Control board
-      driver.get('https://remitano.com/btc/vn/dashboard/escrow/trades/active');
+      driver.get('https://remitano.com/btc/vn/dashboard')
       time.sleep(1)
       
       try:
@@ -125,28 +126,54 @@ while True:
         requiredXpath = "//span[text()=\'"+value+"\']"
         driver.find_element_by_xpath(requiredXpath).click()
         time.sleep(3)
+        driver.execute_script("window.scrollTo(0, 0)")
       
       except Exception as e:
         print(e)
       
-      ## Go to my advertising board
-      value = "Các quảng cáo của tôi"
-      requiredXpath = "//span[text()=\'"+value+"\']"
-      driver.find_element_by_xpath(requiredXpath).click()
+      ## Go to my advertising board (No need)
+      # value = "Các quảng cáo của tôi"
+      # requiredXpath = "//span[text()=\'"+value+"\']"
+      # driver.find_element_by_xpath(requiredXpath).click()
       
       time.sleep(2)
       
       ## Delete advertisement
       value = "Xóa"
       requiredXpath = "//span[text()=\'"+value+"\']"
-      driver.find_element_by_xpath(requiredXpath).click()
-      
+      delete = driver.find_element_by_xpath(requiredXpath).click()
+
+      print('deleted found')
       time.sleep(2)
-      
+
       ## Accept button
-      value = "Đồng ý"
-      requiredXpath = "//button[text()=\'"+value+"\']"
-      driver.find_element_by_xpath(requiredXpath).click()
+      try:
+        value = "Đồng ý"
+        requiredXpath = "//button[text()=\'"+value+"\']"
+        driver.find_element_by_xpath(requiredXpath).click()
+      except Exception as ex:
+        print(ex)
+
+      time.sleep(3)
+
+      ###### second time ######
+      ## Delete advertisement
+      value = "Xóa"
+      requiredXpath = "//span[text()=\'"+value+"\']"
+      delete = driver.find_element_by_xpath(requiredXpath).click()
+
+      print('deleted found')
+      time.sleep(2)
+
+      ## Accept button
+      try:
+        value = "Đồng ý"
+        requiredXpath = "//button[text()=\'"+value+"\']"
+        driver.find_element_by_xpath(requiredXpath).click()
+      except Exception as ex:
+        print(ex)
+      
+      
       
       time.sleep(5)
     except Exception as e:
@@ -169,6 +196,8 @@ while True:
       requiredXpath = "//span[text()=\'"+value+"\']"
       driver.find_element_by_xpath(requiredXpath).click()
       time.sleep(3)
+
+      driver.execute_script("window.scrollTo(0, 0)")
       
     except Exception as e:
       print(e)
@@ -291,6 +320,7 @@ while True:
             requiredXpath = "//span[text()=\'"+value+"\']"
             driver.find_element_by_xpath(requiredXpath).click()
             time.sleep(3)
+            driver.execute_script("window.scrollTo(0, 0)")
             
         except Exception as e:
             print(e)
@@ -301,6 +331,7 @@ while True:
             #driver.find_element_by_xpath(requiredXpath)
             driver.find_element_by_xpath(requiredXpath).click()
             time.sleep(1)
+            
             
         except Exception as e:
             print(e)
@@ -342,6 +373,8 @@ while True:
             requiredXpath = "//span[text()=\'"+value+"\']"
             driver.find_element_by_xpath(requiredXpath).click()
             time.sleep(3)
+
+            driver.execute_script("window.scrollTo(0, 0)")
             
         except Exception as e:
             print(e)
