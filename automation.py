@@ -181,7 +181,7 @@ while True:
     
     ## Calculate
     bitUSD = min(price) / BTC_stamp
-    bitUSD_deserve = bitUSD*0.99
+    bitUSD_deserve = bitUSD*0.995
     
     can_post = 0
     print('price after: ', bitUSD_deserve * BTC_stamp)
@@ -312,7 +312,7 @@ while True:
             elems = driver.find_elements_by_class_name("amount")
             elems.reverse()
 
-            for i in range(0, 5):
+            for i in range(0, 3):
                 value = float(elems[i].get_attribute('innerHTML').replace(",", ""))
                 print(float(value))
                 price.append(value)
@@ -323,7 +323,7 @@ while True:
 
             time.sleep(DELAY_FOR_EACH_PAGE)
         
-        print("Minimum price: ", min(price))
+        print("Maximum price: ", max(price))
 
         ######### Delete Buy Post #########
 
@@ -363,8 +363,8 @@ while True:
         print(BTC_stamp)
         
         ## Calculate
-        bitUSD = min(price) / BTC_stamp
-        bitUSD_deserve = bitUSD*0.99
+        bitUSD = max(price) / BTC_stamp
+        bitUSD_deserve = bitUSD*1.01
 
         print('price after: ', bitUSD_deserve * BTC_stamp)
 
