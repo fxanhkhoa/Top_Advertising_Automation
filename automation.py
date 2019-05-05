@@ -53,7 +53,7 @@ while True:
   try:
     driver.get('https://remitano.com/btc/vn')
     time.sleep(5) # Let the user actually see something!
-    
+    print(driver.page_source)
     ##### try click vietnam #####
     try:
       requiredXpath = "//i[contains(@class, 'fa icon-down-open-1')]"
